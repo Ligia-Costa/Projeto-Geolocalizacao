@@ -119,3 +119,26 @@ function atualizaMapa (latitude, longitude){
         .bindPopup("📍 Você está aqui!")
         .openPopup();
 }
+
+//função para obter a temperatura
+async function temperaturaAtual (latitude, longitude){
+    if (latitude === null || longitude === null) {
+        resultado2.innerHTML = "⚠ Primeiro obtenha as coordenadas!";
+        return;
+    }
+
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=-23.9822&longitude=-48.8756&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m,relative_humidity_2m,rain&current=temperature_2m,rain,is_day,relative_humidity_2m&timezone=America%2FSao_Paulo`;
+
+        //chama a API e espera pela resposta
+        const resposta = await fetch(url);
+
+        //transforma a resposta em JSON
+        const dados = await resposta.json();
+        console.log(dados)
+
+    } catch (erro) {
+        resultado2.innerHTML = "❌ Erro ao buscar a temperatura!";
+        console.error("Erro ao buscar dados:", erro);
+    };
+}
